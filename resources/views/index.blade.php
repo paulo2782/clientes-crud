@@ -21,6 +21,23 @@
             <label>ELECTRA - CRUD</crud>
     </nav>    
     <div class="container" style="margin-top:80px">
+    <input 
+        type="button" 
+        value="Cliente" 
+        class="btn btn-primary" 
+        onclick="newClient()" 
+        id="btnNewClient" 
+        disabled
+    />
+    <input 
+        type="button" 
+        value="Dependentes"  
+        class="btn btn-warning" 
+        onclick="newDependent()" 
+        id="btnNewDependent" 
+    />
+
+
     <!-- CARD CADASTRO DO CLIENTE -->
     <div class="row">
         <div class="col-lg-12">
@@ -29,7 +46,7 @@
                 class="alert alert-danger" 
                 role="alert" 
                 id="message" 
-                style="display:none;position:fixed;margin-top:-70px">
+                style="display:none;position:fixed;margin-top:-100px">
             </div>
         </div>
 
@@ -88,14 +105,33 @@
                     autocomplete="off"
                 />
             </div>
-            <input type="button" value="Salvar" class="btn btn-primary" id="btnSaveClient">
+            <div class="row">            
+            <div class="col-lg-6">
+                <input 
+                    type="button" 
+                    value="Novo" 
+                    class="btn btn-primary form-control" 
+                    id="btnCreateClient"
+                />            
+            </div>
+            <div class="col-lg-6">
+                <input 
+                    type="button" 
+                    value="Salvar" 
+                    class="btn btn-primary form-control" 
+                    id="btnSaveClient"
+                />
+            </div>
+            <input type="hidden" id="actionClient" value="0">
+            <input type="hidden" id="client_id">
+            </div>
         </div>
         </div>
     </div>
   </form>
 
-  <form id="crud_dependent" >
-    <!-- CARD DEPENDENTES DO CLIENTE -->
+  <!-- CARD DEPENDENTES DO CLIENTE -->
+  <form id="crud_dependent">
     <div class="row">
         <div class="col-lg-12 cardNewDependent" style="display:none">
         <div class="card">
@@ -123,6 +159,7 @@
                     id="age" 
                     class="form-control" 
                     min="0"
+                    step="1"
                     maxlength="3"
                 />
                 Data nascimento:
@@ -133,15 +170,30 @@
                     class="form-control" 
                 />
             </div>
-            <input type="button" value="Salvar" class="btn btn-primary" id="btnSaveDependent">
-        </div>
-
+            <div class="row">            
+            <div class="col-lg-6">
+                <input 
+                    type="button" 
+                    value="Novo" 
+                    class="btn btn-primary form-control" 
+                    id="btnCreateDependent"
+                />            
+            </div>
+            <div class="col-lg-6">
+                <input 
+                    type="button" 
+                    value="Salvar" 
+                    class="btn btn-primary form-control" 
+                    id="btnSaveDependent"
+                />
+            </div>
+            <input type="hidden" id="actionDependent" value="0">
+            <input type="hidden" id="dependent_id">
+            
+         </div>
         </div>
     </div>
     <br>
-
-    <input type="button" value="Novo Cliente" class="btn btn-primary" onclick="newClient()">
-    <input type="button" value="Dependentes"  class="btn btn-warning" onclick="newDependent()">
 
     <table class="table table-bordered">
         <tr>
@@ -158,12 +210,11 @@
     <!-- MODAL VISUALIZAR DEPENDENTES -->
 
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                     <div class="modal-header">
-                            <h6 class="modal-title" id="titleModal"></h6>
-
-                        </div>
+                        <h6 class="modal-title" id="titleModal"></h6>
+                    </div>
                 <div class="modal-body">
                     <div class="container-fluid" id="listDependents">
                         
@@ -175,22 +226,6 @@
             </div>
         </div>
     </div>
-    
-
-
-    <script>
-        var modelId = document.getElementById('modelId');
-    
-        modelId.addEventListener('show.bs.modal', function (event) {
-              // Button that triggered the modal
-              let button = event.relatedTarget;
-              // Extract info from data-bs-* attributes
-              let recipient = button.getAttribute('data-bs-whatever');
-    
-            // Use above variables to manipulate the DOM
-        });
-    </script>
-    
   </body>
 </html>
 </form>
