@@ -163,6 +163,11 @@ deleteClient = (id) => {
                 $('#message').show()
                 $('#message').html(response.message)
                 $('#message').fadeOut(5000)
+                $('.cardNewDependent').hide()
+                $('.cardNewClient').show()
+                $('#btnNewClient').prop('disabled',true)
+                $('#btnNewDependent').prop('disabled',false)
+                        
                 allClient() 
             }
         })
@@ -196,6 +201,7 @@ newDependent = () => {
 // Carrega Select Option Cliente
 loadSelectClient = () => {
     $('#clients_id').empty()
+    
     $.ajax({
         type: "get",
         url: "http://127.0.0.1:8000/api/allClient",
@@ -216,19 +222,31 @@ editDependents = (id) => {
     $('.cardNewDependent').show()
     $('.cardNewClient').hide()
     $('.modal').modal('hide')
-    loadSelectClient()
     $.ajax({
         type: "get",
-        url: "http://127.0.0.1:8000/api/readDependent/"+id,
+        url: "http://127.0.0.1:8000/api/allClient",
         success: function (response) {
-            $('#clients_id').val(response[0].clients_id)
-            $('#nameDependent').val(response[0].name)
-            $('#age').val(response[0].age)
-            $('#date_birth').val(response[0].date_birth)
-            $('#dependent_id').val(response[0].id)
-        }    
+            response.forEach(i => {
+                $('#clients_id').append("<option value='"+i.id+"'>"+i.name+"</option>")
+            })
+            $.ajax({
+                type: "get",
+                url: "http://127.0.0.1:8000/api/readDependent/"+id,
+                success: function (response) {
+                    console.log(response)
+                    $('#clients_id').val(response[0].clients_id)
+                    $('#nameDependent').val(response[0].name)
+                    $('#age').val(response[0].age)
+                    $('#date_birth').val(response[0].date_birth)
+                    $('#dependent_id').val(response[0].id)
+                }    
+            })
+                        
+        }
     })
 }
+
+     
 
 // Lista dependente pelo ID
 showDependents = (id) => {
@@ -269,6 +287,7 @@ deleteDependents = (id) => {
             $('#message').html(response.message)
             $('#message').fadeOut(5000)
             $('.modal').modal('hide');
+            
         }
     })
 
@@ -309,7 +328,6 @@ $('#btnSaveDependent').click(function(e){
                 success: function (response) {
                     $('#message').show()
                     $('#message').html(response.message)
-                    allClient() 
                     $('#crud_dependent')[0].reset()
                 }
             })

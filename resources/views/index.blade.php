@@ -194,19 +194,19 @@
         </div>
     </div>
     <br>
-
-    <table class="table table-bordered">
-        <tr>
-            <th>NOME</th>
-            <th>CPF / CNPJ</th>
-            <th>ENDEREÇO</th>
-            <th>CEP</th>
-            
-        </tr>
-    <tbody id="data_client">
-    </tbody>
-    </table>
-
+    <div class="container">
+        <table class="table table-bordered">
+            <tr>
+                <th>NOME</th>
+                <th>CPF / CNPJ</th>
+                <th>ENDEREÇO</th>
+                <th>CEP</th>
+                
+            </tr>
+            <tbody id="data_client">
+            </tbody>
+        </table>
+    </div>
     <!-- MODAL VISUALIZAR DEPENDENTES -->
 
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
