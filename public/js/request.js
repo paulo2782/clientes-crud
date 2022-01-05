@@ -1,19 +1,3 @@
-$(function() {
-    allClient();
-    $('#cpf_cnpj').mask('999.999.999-99')
-    $('#cep').mask('99.999-999')
-    $('#radio1').change(function(e){
-        $('#lbl_cpf_cnpj').html('CPF')
-        $('#cpf_cnpj').val('')
-        $('#cpf_cnpj').mask('999.999.999-99')
-    })
-    $('#radio2').change(function(e){
-        $('#lbl_cpf_cnpj').html('CNPJ')
-        $('#cpf_cnpj').val('')
-        $('#cpf_cnpj').mask('99.999.999/9999-99')
-    })
-})    
-
 // CLIENTES
 // Todos Clientes
 allClient = () => {
@@ -65,75 +49,13 @@ newClient = () => {
 
     if($('.cardNewClient').is(':visible')){
         $('.cardNewClient').fadeOut(500)
-
     }else{
         $('#titleCardClient').html('Cadastro de Cliente')
         $('.cardNewClient').fadeIn(500)
         $('.cardNewDependent').hide()
-
     }
 }
 
-
-$('#btnSaveClient').click(function(){
-    
-    nameClient = $('#nameClient').val()
-    cpf_cnpj   = $('#cpf_cnpj').val()
-    cep        = $('#cep').val()
-    address    = $('#address').val()
-
-    //Mostra DIV Mensagem
-    $('#message').show()
-    $('#message').fadeOut(5000)
-
-    // Validação campos do formulário client
-    if(nameClient.length == 0){
-        $('#message').html("Nome cliente não pode ser em branco.")
-        return false;
-    }
-    if(cpf_cnpj.length == 0){
-        $('#message').html("CPF ou CNPJ não pode ser em branco.")
-        return false;
-    }    
-    if(cep.length == 0){
-        $('#message').html("CEP não pode ser em branco.")
-        return false;
-    }    
-    if(address.length == 0){
-        $('#message').html("Endereço não pode ser em branco.")
-        return false;
-    }
-    $('#message').html('')
-    if($('#actionClient').val() == 0){
-        if(confirm('Deseja salvar cliente?')){
-            $.ajax({
-                type:"POST",
-                url: "http://127.0.0.1:8000/api/createClient",
-                data: $('#crud_client').serialize(),
-                success: function (response) {
-                    $('#message').show()
-                    $('#message').html(response.message)
-                    allClient() 
-                }
-            })
-        }
-    }else{
-        if(confirm('Confirmar alterar dados do cliente?')){
-            let idClient = $('#client_id').val()
-            $.ajax({
-                type:"PUT",
-                url: "http://127.0.0.1:8000/api/updateClient/"+idClient,
-                data: $('#crud_client').serialize(),
-                success: function (response) {
-                    $('#message').show()
-                    $('#message').html(response.message)
-                    allClient() 
-                }
-            })
-
-        }
-    }   
-})
 
 
 updateClient = (id) => {
@@ -154,7 +76,6 @@ updateClient = (id) => {
             iCPF_CNPJ = response[0].cpf_cnpj
             if(iCPF_CNPJ.length == 14){ 
                 $('#radio1').trigger('click')
-                
             }else{
                 $('#radio2').trigger('click')
             }
@@ -164,7 +85,6 @@ updateClient = (id) => {
             $('#address').val(response[0].address)
         }    
     })
-   
 }
 
 // Deletar Cliente
@@ -181,7 +101,6 @@ deleteClient = (id) => {
                 $('.cardNewClient').show()
                 $('#btnNewClient').prop('disabled',true)
                 $('#btnNewDependent').prop('disabled',false)
-                        
                 allClient() 
             }
         })
@@ -197,10 +116,8 @@ deleteClient = (id) => {
 newDependent = () => {
     $('#actionDependent').val(0)
     $('#crud_dependent')[0].reset()
-
     $('#btnNewClient').prop('disabled',false)
     $('#btnNewDependent').prop('disabled',true)
-
     if($('.cardNewDependent').is(':visible')){
         $('.cardNewDependent').fadeOut(500)
     }else{
@@ -225,14 +142,12 @@ loadSelectClient = () => {
             })
         }    
     })
-
 }
 
 //Editar dependentes
 editDependents = (id) => {
     $('#actionDependent').val(1)
     $('#titleCardDependent').html('Alterar Dados do Dependente')
-
     $('.cardNewDependent').show()
     $('.cardNewClient').hide()
     $('.modal').modal('hide')
@@ -260,8 +175,6 @@ editDependents = (id) => {
     })
 }
 
-     
-
 // Lista dependente pelo ID
 showDependents = (id) => {
     $('#listDependents').html('')
@@ -288,7 +201,6 @@ showDependents = (id) => {
                     "<br><hr>")
                 })
             }
-            
         }
     })
 }
@@ -303,83 +215,154 @@ deleteDependents = (id) => {
             $('#message').html(response.message)
             $('#message').fadeOut(5000)
             $('.modal').modal('hide');
-            
+        }
+    })
+}
+
+$(function() {
+    allClient();
+
+    // EVENTO CLICK BOTÃO CRIAR NOVO CLIENTE
+    $('#btnCreateClient').click(function(e){
+        $('#crud_client')[0].reset()
+        $('#nameClient').focus()
+        $('#titleCardClient').html('Cadastro de Cliente')
+        $('#actionClient').val('0')
+    })
+
+    // EVENTO CLICK BOTÃO CRIAR NOVO DEPENDENTE
+    $('#btnCreateDependent').click(function(e){
+        $('#crud_dependent')[0].reset()
+        $('#nameDependent').focus()
+        $('#titleCardDependent').html('Cadastro de Dependente')
+        $('#actionDependent').val('0')
+    })
+
+    // BOTÃO SALVAR CLIENTE
+    $('#btnSaveClient').click(function(){
+        nameClient = $('#nameClient').val()
+        cpf_cnpj   = $('#cpf_cnpj').val()
+        cep        = $('#cep').val()
+        address    = $('#address').val()
+    
+        //Mostra DIV Mensagem
+        $('#message').show()
+        $('#message').fadeOut(5000)
+    
+        // Validação campos do formulário client
+        if(nameClient.length == 0){
+            $('#message').html("Nome cliente não pode ser em branco.")
+            return false;
+        }
+        if(cpf_cnpj.length == 0){
+            $('#message').html("CPF ou CNPJ não pode ser em branco.")
+            return false;
+        }    
+        if(cep.length == 0){
+            $('#message').html("CEP não pode ser em branco.")
+            return false;
+        }    
+        if(address.length == 0){
+            $('#message').html("Endereço não pode ser em branco.")
+            return false;
+        }
+        $('#message').html('')
+        if($('#actionClient').val() == 0){
+            if(confirm('Deseja salvar cliente?')){
+                $.ajax({
+                    type:"POST",
+                    url: "http://127.0.0.1:8000/api/createClient",
+                    data: $('#crud_client').serialize(),
+                    success: function (response) {
+                        $('#message').show()
+                        $('#message').html(response.message)
+                        allClient() 
+                    }
+                })
+            }
+        }else{
+            if(confirm('Confirmar alterar dados do cliente?')){
+                let idClient = $('#client_id').val()
+                $.ajax({
+                    type:"PUT",
+                    url: "http://127.0.0.1:8000/api/updateClient/"+idClient,
+                    data: $('#crud_client').serialize(),
+                    success: function (response) {
+                        $('#message').show()
+                        $('#message').html(response.message)
+                        allClient() 
+                    }
+                })
+            }
+        }   
+    })
+    
+    // BOTAO SALVAR DEPENDENTE
+    $('#btnSaveDependent').click(function(e){
+        nameDependent = $('#nameDependent').val()
+        age           = $('#age').val()
+        date_birth    = $('#date_birth').val()
+    
+        //Mostra DIV Mensagem
+        $('#message').show()
+        $('#message').fadeOut(5000)
+
+        // Validação campos do formulário
+        if(nameDependent.length == 0){
+            $('#message').html("Nome dependente não pode ser em branco.")
+            return false;
+        } 
+        if(age.length == 0){
+            $('#message').html("Idade não pode ser vazio.")
+            return false;
+        } 
+        if(date_birth.length == 0){
+            $('#message').html("Data nascimento não pode ser vazio.")
+            return false;
+        } 
+        
+        if($('#actionDependent').val() == 0){
+            if(confirm('Deseja salvar dependente?')){
+                $('#message').html('')
+                $.ajax({
+                    type:"POST",
+                    url: "http://127.0.0.1:8000/api/createDependent",
+                    data: $('#crud_dependent').serialize(),
+                    success: function (response) {
+                        $('#message').show()
+                        $('#message').html(response.message)
+                        $('#crud_dependent')[0].reset()
+                    }
+                })
+            }
+        }else{
+            if(confirm('Confirmar alterar dados do dependente?')){
+                let idDependent = $('#dependent_id').val()
+                $.ajax({
+                    type:"PUT",
+                    url: "http://127.0.0.1:8000/api/updateDependent/"+idDependent,
+                    data: $('#crud_dependent').serialize(),
+                    success: function (response) {
+                        console.log(response)
+                        $('#message').show()
+                        $('#message').html(response.message)
+                        $('#crud_dependent')[0].reset()
+                    }
+                })
+            }
         }
     })
 
-}
-
-// EVENTOS BOTOES 
-// BOTAO SALVAR DEPENDENTE
-$('#btnSaveDependent').click(function(e){
-    nameDependent = $('#nameDependent').val()
-    age           = $('#age').val()
-    date_birth    = $('#date_birth').val()
- 
-    //Mostra DIV Mensagem
-    $('#message').show()
-    $('#message').fadeOut(5000)
-
-    // Validação campos do formulário
-    if(nameDependent.length == 0){
-        $('#message').html("Nome dependente não pode ser em branco.")
-        return false;
-    } 
-    if(age.length == 0){
-        $('#message').html("Idade não pode ser vazio.")
-        return false;
-    } 
-    if(date_birth.length == 0){
-        $('#message').html("Data nascimento não pode ser vazio.")
-        return false;
-    } 
-    
-    if($('#actionDependent').val() == 0){
-        if(confirm('Deseja salvar dependente?')){
-            $('#message').html('')
-            $.ajax({
-                type:"POST",
-                url: "http://127.0.0.1:8000/api/createDependent",
-                data: $('#crud_dependent').serialize(),
-                success: function (response) {
-                    $('#message').show()
-                    $('#message').html(response.message)
-                    $('#crud_dependent')[0].reset()
-                }
-            })
-        }
-    }else{
-        
-        if(confirm('Confirmar alterar dados do dependente?')){
-            let idDependent = $('#dependent_id').val()
-            $.ajax({
-                type:"PUT",
-                url: "http://127.0.0.1:8000/api/updateDependent/"+idDependent,
-                data: $('#crud_dependent').serialize(),
-                success: function (response) {
-                    console.log(response)
-                    $('#message').show()
-                    $('#message').html(response.message)
-                    $('#crud_dependent')[0].reset()
-                }
-            })
-
-        }
-    }
-})
-
-// EVENTO CLICK BOTÃO CRIAR NOVO CLIENTE
-$('#btnCreateClient').click(function(e){
-    $('#crud_client')[0].reset()
-    $('#nameClient').focus()
-    $('#titleCardClient').html('Cadastro de Cliente')
-    $('#actionClient').val('0')
-})
-
-// EVENTO CLICK BOTÃO CRIAR NOVO DEPENDENTE
-$('#btnCreateDependent').click(function(e){
-    $('#crud_dependent')[0].reset()
-    $('#nameDependent').focus()
-    $('#titleCardDependent').html('Cadastro de Dependente')
-    $('#actionDependent').val('0')
-})
+    $('#cpf_cnpj').mask('999.999.999-99')
+    $('#cep').mask('99.999-999')
+    $('#radio1').change(function(e){
+        $('#lbl_cpf_cnpj').html('CPF')
+        $('#cpf_cnpj').val('')
+        $('#cpf_cnpj').mask('999.999.999-99')
+    })
+    $('#radio2').change(function(e){
+        $('#lbl_cpf_cnpj').html('CNPJ')
+        $('#cpf_cnpj').val('')
+        $('#cpf_cnpj').mask('99.999.999/9999-99')
+    })
+})    
