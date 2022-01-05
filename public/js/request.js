@@ -1,3 +1,19 @@
+$(function() {
+    allClient();
+    $('#cpf_cnpj').mask('999.999.999-99')
+    $('#cep').mask('99.999-999')
+    $('#radio1').change(function(e){
+        $('#lbl_cpf_cnpj').html('CPF')
+        $('#cpf_cnpj').val('')
+        $('#cpf_cnpj').mask('999.999.999-99')
+    })
+    $('#radio2').change(function(e){
+        $('#lbl_cpf_cnpj').html('CNPJ')
+        $('#cpf_cnpj').val('')
+        $('#cpf_cnpj').mask('99.999.999/9999-99')
+    })
+})    
+
 // CLIENTES
 // Todos Clientes
 allClient = () => {
@@ -6,7 +22,7 @@ allClient = () => {
         type: "get",
         url: "http://127.0.0.1:8000/api/allClient",
         success: function (response) {
-            console.log(response)
+            
              response.forEach(i => {
                 $('#data_client').append(
                     '<tr>'+
@@ -98,7 +114,6 @@ $('#btnSaveClient').click(function(){
                     $('#message').show()
                     $('#message').html(response.message)
                     allClient() 
-                    $('#crud_client')[0].reset()
                 }
             })
         }
@@ -113,7 +128,6 @@ $('#btnSaveClient').click(function(){
                     $('#message').show()
                     $('#message').html(response.message)
                     allClient() 
-                    $('#crud_client')[0].reset()
                 }
             })
 
@@ -222,6 +236,7 @@ editDependents = (id) => {
     $('.cardNewDependent').show()
     $('.cardNewClient').hide()
     $('.modal').modal('hide')
+    $('#clients_id').html('')
     $.ajax({
         type: "get",
         url: "http://127.0.0.1:8000/api/allClient",
@@ -233,7 +248,6 @@ editDependents = (id) => {
                 type: "get",
                 url: "http://127.0.0.1:8000/api/readDependent/"+id,
                 success: function (response) {
-                    console.log(response)
                     $('#clients_id').val(response[0].clients_id)
                     $('#nameDependent').val(response[0].name)
                     $('#age').val(response[0].age)
@@ -255,23 +269,25 @@ showDependents = (id) => {
         type:"GET",
         url: "http://127.0.0.1:8000/api/allDepentsClient/"+id,
         success: function (response) {
-            $('#listDependents').html('<h6>Dependentes do Cliente: '+response[0].name_client+'</h6>')
-            response.forEach(i => {
-                $('#listDependents').append(
-                "Nome: "+i.name+" - Idade: "+i.age+" anos - "+
-                "<input type='button' "+
-                "class='btn btn-primary' "+
-                "onclick='editDependents("+i.dependent_id+")' "+
-                "data-dismiss='modal'"+
-                "value='Editar'>"+
-                " "+
-                "<input type='button' "+
-                "class='btn btn-danger' "+
-                "onclick='deleteDependents("+i.dependent_id+")' "+
-                "data-dismiss='modal'"+
-                "value='Excluir'"+
-                "<br><hr>")
-            })
+            if(response.length > 0){
+                $('#listDependents').html('<h6>Dependentes do Cliente: '+response[0].name_client+'</h6>')
+                response.forEach(i => {
+                    $('#listDependents').append(
+                    "Nome: "+i.name+" - Idade: "+i.age+" anos - "+
+                    "<input type='button' "+
+                    "class='btn btn-primary' "+
+                    "onclick='editDependents("+i.dependent_id+")' "+
+                    "data-dismiss='modal'"+
+                    "value='Editar'>"+
+                    " "+
+                    "<input type='button' "+
+                    "class='btn btn-danger' "+
+                    "onclick='deleteDependents("+i.dependent_id+")' "+
+                    "data-dismiss='modal'"+
+                    "value='Excluir'"+
+                    "<br><hr>")
+                })
+            }
             
         }
     })
@@ -318,7 +334,7 @@ $('#btnSaveDependent').click(function(e){
         return false;
     } 
     
-    if($('#dependent_id').val() == 0){
+    if($('#actionDependent').val() == 0){
         if(confirm('Deseja salvar dependente?')){
             $('#message').html('')
             $.ajax({
