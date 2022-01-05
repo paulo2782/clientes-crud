@@ -270,7 +270,7 @@ showDependents = (id) => {
         url: "http://127.0.0.1:8000/api/allDepentsClient/"+id,
         success: function (response) {
             if(response.length > 0){
-                $('#listDependents').html('<h6>Dependentes do Cliente: '+response[0].name_client+'</h6>')
+                $('#listDependents').html('<h6>Dependentes do Cliente: '+response[0].name_client+' - CPF/CNPJ: '+response[0].cpf_cnpj+'</h6>')
                 response.forEach(i => {
                     $('#listDependents').append(
                     "Nome: "+i.name+" - Idade: "+i.age+" anos - "+
