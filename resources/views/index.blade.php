@@ -1,26 +1,11 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>Electra CRUD</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('scss/bootstrap.scss')}}">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
-
+      @include('bootstrap')
   </head>
   <body>
+      @include('top')
   <form id="crud_client">
-    <nav class="nav justify-content-center bg-dark" style="color:white;padding:10px">
-            <label style="font-size:20px;font-family:Helvetica">ELECTRA - CRUD</crud>
-    </nav>    
     <div class="container" style="margin-top:80px">
     <input 
         type="button" 
@@ -37,8 +22,6 @@
         onclick="newDependent()" 
         id="btnNewDependent" 
     />
-
-
     <!-- CARD CADASTRO DO CLIENTE -->
     <div class="row">
         <div class="col-lg-12">
@@ -194,8 +177,9 @@
          </div>
         </div>
     </div>
-    <br>
-    <div class="container">
+    
+    <div class="container" style="margin-top:30px">
+        <h6 id="total">Total de Clientes:</h6>
         <table class="table table-bordered">
             <tr>
                 <th>NOME</th>
@@ -227,13 +211,18 @@
             </div>
         </div>
     </div>
-  </body>
+</div>
+</div>
+@include('footer')
+</body>
 </html>
 </form>
 
 <script src="{{asset('js/jquery.mask.min.js')}}"></script>
 <!-- Requisições API -->
 <script src="{{asset('js/request.js')}}"></script>
+<!-- Mascara dos campos -->
+<script src="{{asset('js/maskField.js')}}"></script>
 
  
 

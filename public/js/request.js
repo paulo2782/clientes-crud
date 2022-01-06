@@ -1,12 +1,15 @@
+const SERVER = 'http://127.0.0.1'
+const PORT = 8000 
+
 // CLIENTES
 // Todos Clientes
 allClient = () => {
     $('#data_client').empty()
     $.ajax({
         type: "get",
-        url: "http://127.0.0.1:8000/api/allClient",
+        url: SERVER+':'+PORT+'/api/allClient',
         success: function (response) {
-            
+            $('#total').html('Total de clientes: '+response.length)
              response.forEach(i => {
                 $('#data_client').append(
                     '<tr>'+
@@ -56,8 +59,6 @@ newClient = () => {
     }
 }
 
-
-
 updateClient = (id) => {
     $('#actionClient').val('1')
     $('#nameClient').focus()
@@ -69,9 +70,8 @@ updateClient = (id) => {
 
     $.ajax({
         type: "get",
-        url: "http://127.0.0.1:8000/api/readClient/"+id,
+        url: SERVER+':'+PORT+'/api/readClient/'+id,
         success: function (response) {
-            console.log(response)
             $('#nameClient').val(response[0].name)
             iCPF_CNPJ = response[0].cpf_cnpj
             if(iCPF_CNPJ.length == 14){ 
@@ -92,7 +92,7 @@ deleteClient = (id) => {
     if(confirm('Confirma excluir cliente?')) {
         $.ajax({
             type: "DELETE",
-            url: "http://127.0.0.1:8000/api/deleteClient/"+id,
+            url: SERVER+':'+PORT+'/api/deleteClient/'+id,
             success: function (response) {
                 $('#message').show()
                 $('#message').html(response.message)
@@ -135,7 +135,7 @@ loadSelectClient = () => {
     
     $.ajax({
         type: "get",
-        url: "http://127.0.0.1:8000/api/allClient",
+        url: SERVER+':'+PORT+'/api/allClient',
         success: function (response) {
             response.forEach(i => {
                 $('#clients_id').append("<option value='"+i.id+"'>"+i.name+"</option>")
@@ -154,14 +154,14 @@ editDependents = (id) => {
     $('#clients_id').html('')
     $.ajax({
         type: "get",
-        url: "http://127.0.0.1:8000/api/allClient",
+        url: SERVER+':'+PORT+'/api/allClient',
         success: function (response) {
             response.forEach(i => {
                 $('#clients_id').append("<option value='"+i.id+"'>"+i.name+"</option>")
             })
             $.ajax({
                 type: "get",
-                url: "http://127.0.0.1:8000/api/readDependent/"+id,
+                url: SERVER+':'+PORT+'/api/readDependent/'+id,
                 success: function (response) {
                     $('#clients_id').val(response[0].clients_id)
                     $('#nameDependent').val(response[0].name)
@@ -170,7 +170,6 @@ editDependents = (id) => {
                     $('#dependent_id').val(response[0].id)
                 }    
             })
-                        
         }
     })
 }
@@ -180,7 +179,7 @@ showDependents = (id) => {
     $('#listDependents').html('')
     $.ajax({
         type:"GET",
-        url: "http://127.0.0.1:8000/api/allDepentsClient/"+id,
+        url: SERVER+':'+PORT+'/api/allDepentsClient/'+id,
         success: function (response) {
             if(response.length > 0){
                 $('#listDependents').html('<h6>Dependentes do Cliente: '+response[0].name_client+' - CPF/CNPJ: '+response[0].cpf_cnpj+'</h6>')
@@ -209,7 +208,7 @@ showDependents = (id) => {
 deleteDependents = (id) => {
     $.ajax({
         type:"DELETE",
-        url: "http://127.0.0.1:8000/api/deleteDependent/"+id,
+        url: SERVER+':'+PORT+'/api/deleteDependent/'+id,
         success: function (response) {
             $('#message').show()
             $('#message').html(response.message)
@@ -271,7 +270,7 @@ $(function() {
             if(confirm('Deseja salvar cliente?')){
                 $.ajax({
                     type:"POST",
-                    url: "http://127.0.0.1:8000/api/createClient",
+                    url: SERVER+':'+PORT+'/api/createClient',
                     data: $('#crud_client').serialize(),
                     success: function (response) {
                         $('#message').show()
@@ -285,7 +284,7 @@ $(function() {
                 let idClient = $('#client_id').val()
                 $.ajax({
                     type:"PUT",
-                    url: "http://127.0.0.1:8000/api/updateClient/"+idClient,
+                    url: SERVER+':'+PORT+'/api/updateClient/'+idClient,
                     data: $('#crud_client').serialize(),
                     success: function (response) {
                         $('#message').show()
@@ -326,7 +325,7 @@ $(function() {
                 $('#message').html('')
                 $.ajax({
                     type:"POST",
-                    url: "http://127.0.0.1:8000/api/createDependent",
+                    url: SERVER+':'+PORT+'/api/createDependent',
                     data: $('#crud_dependent').serialize(),
                     success: function (response) {
                         $('#message').show()
@@ -340,10 +339,9 @@ $(function() {
                 let idDependent = $('#dependent_id').val()
                 $.ajax({
                     type:"PUT",
-                    url: "http://127.0.0.1:8000/api/updateDependent/"+idDependent,
+                    url: SERVER+':'+PORT+'/api/updateDependent/'+idDependent,
                     data: $('#crud_dependent').serialize(),
                     success: function (response) {
-                        console.log(response)
                         $('#message').show()
                         $('#message').html(response.message)
                         $('#crud_dependent')[0].reset()
@@ -351,18 +349,5 @@ $(function() {
                 })
             }
         }
-    })
-
-    $('#cpf_cnpj').mask('999.999.999-99')
-    $('#cep').mask('99.999-999')
-    $('#radio1').change(function(e){
-        $('#lbl_cpf_cnpj').html('CPF')
-        $('#cpf_cnpj').val('')
-        $('#cpf_cnpj').mask('999.999.999-99')
-    })
-    $('#radio2').change(function(e){
-        $('#lbl_cpf_cnpj').html('CNPJ')
-        $('#cpf_cnpj').val('')
-        $('#cpf_cnpj').mask('99.999.999/9999-99')
     })
 })    
