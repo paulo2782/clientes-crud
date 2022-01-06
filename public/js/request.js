@@ -18,24 +18,21 @@ allClient = () => {
                     '<td>'+i.address+'</td>'+
                     '<td>'+i.cep+'</td>'+
                     // Botão Update 
-                    "<td><input type='button' "+
-                        "value='Alterar' "+
-                        "class='btn btn-warning form-control' "+
-                        "title='Alterar Registro' "+
-                        "onclick='updateClient(id="+i.id+")'> "+
+                    "<td><i class='fas fa-edit btn btn-primary' "+
+                        "onclick='updateClient(id="+i.id+")' "+
+                        "title='Alterar registro'></i>"+
                     "</td>"+
                     // Botão Delete 
-                    "<td><input type='button' "+
-                        "value='Excluir' "+
-                        "class='btn btn-danger form-control' "+
-                        "title='Excluir Registro' "+
-                        "onclick='deleteClient(id="+i.id+")'> "+
+                    "<td><i class='fas fa-trash btn btn-danger' "+
+                        "onclick='deleteClient(id="+i.id+")' "+
+                        "title='Excluir registro'></i>"+
                     "</td>"+
                     // Botão Modal Visualiza Dependetes 
-                    "<td>"+
-                    "<button type='button' class='btn btn-info' onclick='showDependents(id="+i.id+")' data-bs-toggle='modal' data-bs-target='#modelId'>"+
-                    "Visualiza dependentes"+
-                    "</button>"+
+                    "<td><i class='far fa-eye btn btn-success' "+
+                        "onclick='showDependents(id="+i.id+")' "+
+                        "title='Visualiza dependentes' "+
+                        "data-bs-toggle='modal' data-bs-target='#modelId'></i>"+
+                    "</td>"+
                     "</tr>"
                 )
             });

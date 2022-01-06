@@ -6,7 +6,7 @@
   <body>
       @include('top')
   <form id="crud_client">
-    <div class="container" style="margin-top:80px">
+    <div class="container" style="margin-top:100px">
     <input 
         type="button" 
         value="Cliente" 
@@ -18,22 +18,13 @@
     <input 
         type="button" 
         value="Dependentes"  
-        class="btn btn-warning" 
+        class="btn btn-primary" 
         onclick="newDependent()" 
         id="btnNewDependent" 
     />
     <!-- CARD CADASTRO DO CLIENTE -->
     <div class="row">
-        <div class="col-lg-12">
-            <!-- DIV DE MENSAGENS -->
-            <div 
-                class="alert alert-danger" 
-                role="alert" 
-                id="message" 
-                style="display:none;position:fixed;margin-top:-100px">
-            </div>
-        </div>
-
+    
         <div class="col-lg-12 cardNewClient">
         <div class="card">
            <div class="card-body">
@@ -178,20 +169,32 @@
         </div>
     </div>
     
+    <!-- DIV DE MENSAGENS -->
+    <div class="col-lg-12">
+        <div 
+            class="alert alert-danger" 
+            role="alert" 
+            id="message" 
+            style="display:none;margin-top:-500px;text-align:center">
+        </div>
+    </div>    
+
     <div class="container" style="margin-top:30px">
         <h6 id="total">Total de Clientes:</h6>
+        <div class="table-responsive form-control">
         <table class="table table-bordered">
             <tr>
                 <th>NOME</th>
                 <th>CPF / CNPJ</th>
                 <th>ENDEREÇO</th>
                 <th>CEP</th>
-                
             </tr>
             <tbody id="data_client">
             </tbody>
         </table>
+        </div>
     </div>
+
     <!-- MODAL VISUALIZAR DEPENDENTES -->
 
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -213,7 +216,7 @@
     </div>
 </div>
 </div>
-@include('footer')
+<!-- @include('footer')  -->
 </body>
 </html>
 </form>
